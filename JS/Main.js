@@ -5,24 +5,27 @@ Game Setup
  3. frame rate
  4. animation timer runs main function 60 frames per second
 -------------------------------------------*/
-var c = document.querySelector(`canvas`)
+var c = document.querySelector(`MyCanvas`)
 var ctx = c.getContext(`2d`)
 var fps = 1000/60
 var timer = setInterval(main, fps)
+//Health Bar UI//
+var healthBar = new GameObject();
+healthBar.x = 10;
+healthBar.y = 25;
+healthBar.beginPath();
+healthBar.lineWidth="5";
+healthBar.moveTo(85,301);
+healthBar.lineTo(185,301);
+healthBar.lineTo(185,401);
+healthBar.lineTo(85,401);
+healthBar.lineTo(85,300);
+healthBar.fillStyle="red";
+healthBar.fillRect(85,300,100,100);
+healthBar.strokeRect="black";
+healthBar.stroke();
 
-
-/*------------Declare Variables Here--------*/
-var avatarHealth = 100;
-avatarHealth.color = `red`; 
-avatarHealth.x = 10;
-avatarHealth.y = 25;
-//image reference for the avatar
-var avatarImg = new Image();
-avatarImg.src = "images/mrt.jpg";
-avatarImg.onload = function() 
-{
-    timer = setInterval(main, fps);
-}
+// Player controllable avatar//
 var avatar = new GameObject();
 avatar.color = `blue`;
 avatar.x = 90;
@@ -31,8 +34,17 @@ avatar.w = 100;
 avatar.h = 100;
 avatar.vx = 3.5;
 avatar.vy = 3.5;
-
-//array for the pellets
+avatar.beginPath();
+avatar.lineWidth = 2;
+avatar.fillRect();
+avatar.fillStyle = `blue`;
+avatar.moveTo(56, 733);
+avatar.lineTo(106, 733);
+avatar.lineTo(56, 783);
+avatar.lineTo(106, 783);    
+avatar.lineTo(56, 733);
+avatar.closePath();
+//array for the pellets and amount of available to the player//
 var amt2 = 10;
 var pellets = [];
 for(var a=0; a<amt2; a++)
@@ -45,7 +57,7 @@ for(var a=0; a<amt2; a++)
     pellets[a].h = 8;
     pellets[a].vx = 6;
     pellets[a].vy = 6;
-//collission detection for the pellets to the bugs
+//collission detection for the pellets to the bugs//
     while(pellets[a].overlaps(bugs[i]))
     {
         if(pellets[a].x < bugs[i].x)
@@ -58,13 +70,16 @@ for(var a=0; a<amt2; a++)
         }
     }
 }
+//variable and dimensions for the queen//
 var queen = new GameObject();
 queen.color = `black`;
+queen.x = 60;
+queen.y = 65;
 queen.w = 150;
 queen.h = 150;
 queen.vx = 4;
 queen.vy = 4;
-
+//variable for test bug to test movement and shooting controls along with health and damage response//
 var testBug = new GameObject();
 testBug.color = `red`;
 testBug.x = 467;
@@ -73,19 +88,19 @@ testBug.w = 75;
 testBug.h = 75;
 testBug.vx = 4.5;
 testBug.vy = 4.5;
-
+//variable for platforms to be destroyed by queen//
 var plat = new GameObject();
 plat.color = `gray`;
 plat.w = 2;
 plat.h = 100;
-
+//variable for powerup//
 var pwrup = new GameObject();
 pwrup.color = `purple`;
 pwrup.x = rand(0, c.width);
 pwrup.y = rand(0, c.height);
 pwrup.w = 6;
 pwrup.h = 6;
-
+//array and variables for bugs, amount of and dimensions//
 var amt1 = 14;
 var bugs = [];
 for(var i=0; i<amt1; i++)
@@ -111,12 +126,9 @@ for(var i=0; i<amt1; i++)
         }
     }
 }
-
-
 /*--------------main()------------------------
 This is the function that makes the game work
 ---------------------------------------------*/
-
 function main()
 {
     //erases the screen//
@@ -131,11 +143,7 @@ function main()
     if(avatar.x > c.width + -avatar.w/2){avatar.x = c.width + -avatar.w/2;}
     if(avatar.y < 0 + avatar.h/2){avatar.y = 0 + avatar.h/2;}
     if(avatar.y > c.height + -avatar.h/2){avatar.y = c.height + -avatar.h/2;}  
-
-    //draw the pictures//
-    ctx.beginPath();
-    ctx.moveTo();
-    ctx.lineTo();
+    //avatar rectangle//
 
     //makes the avatar shoot in the direction the player is facing//
     if(space==true){pellets.x += pellets.vx;}
