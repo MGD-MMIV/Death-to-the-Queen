@@ -15,13 +15,13 @@ healthBar.x = 10;
 healthBar.y = 25;
 healthBar.beginPath();
 healthBar.lineWidth="5";
-healthBar.moveTo(85,301);
-healthBar.lineTo(185,301);
-healthBar.lineTo(185,401);
-healthBar.lineTo(85,401);
-healthBar.lineTo(85,300);
+healthBar.moveTo();
+healthBar.lineTo();
+healthBar.lineTo();
+healthBar.lineTo();
+healthBar.lineTo();
 healthBar.fillStyle="red";
-healthBar.fillRect(85,300,100,100);
+healthBar.fillRect();
 healthBar.strokeRect="black";
 healthBar.stroke();
 
@@ -44,6 +44,7 @@ avatar.lineTo(56, 783);
 avatar.lineTo(106, 783);    
 avatar.lineTo(56, 733);
 avatar.closePath();
+
 //array for the pellets and amount of available to the player//
 var amt2 = 10;
 var pellets = [];
@@ -70,6 +71,7 @@ for(var a=0; a<amt2; a++)
         }
     }
 }
+
 //variable and dimensions for the queen//
 var queen = new GameObject();
 queen.color = `black`;
@@ -79,6 +81,7 @@ queen.w = 150;
 queen.h = 150;
 queen.vx = 4;
 queen.vy = 4;
+
 //variable for test bug to test movement and shooting controls along with health and damage response//
 var testBug = new GameObject();
 testBug.color = `red`;
@@ -88,11 +91,13 @@ testBug.w = 75;
 testBug.h = 75;
 testBug.vx = 4.5;
 testBug.vy = 4.5;
+
 //variable for platforms to be destroyed by queen//
 var plat = new GameObject();
 plat.color = `gray`;
 plat.w = 2;
 plat.h = 100;
+
 //variable for powerup//
 var pwrup = new GameObject();
 pwrup.color = `purple`;
@@ -100,6 +105,7 @@ pwrup.x = rand(0, c.width);
 pwrup.y = rand(0, c.height);
 pwrup.w = 6;
 pwrup.h = 6;
+
 //array and variables for bugs, amount of and dimensions//
 var amt1 = 14;
 var bugs = [];
@@ -143,8 +149,6 @@ function main()
     if(avatar.x > c.width + -avatar.w/2){avatar.x = c.width + -avatar.w/2;}
     if(avatar.y < 0 + avatar.h/2){avatar.y = 0 + avatar.h/2;}
     if(avatar.y > c.height + -avatar.h/2){avatar.y = c.height + -avatar.h/2;}  
-    //avatar rectangle//
-
     //makes the avatar shoot in the direction the player is facing//
     if(space==true){pellets.x += pellets.vx;}
 
