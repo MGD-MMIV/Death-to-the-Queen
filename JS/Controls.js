@@ -8,7 +8,7 @@ var space = false;
 //Detecting Key press
 
 document.addEventListener('keydown', press);
-function press (e){
+function press(e){
     if (e.keycode == 87){w=true;}
     if (e.keycode == 83){s=true;}
     if (e.keycode == 65){a=true;}
