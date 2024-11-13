@@ -12,21 +12,21 @@ var timer = setInterval(main, fps)
 
 //Declaring character/enemy objects
 var avatar; 
-var Bugs;
-var Queen;
+var bugs;
+var queen;
 
 //Animations vars and sourcing character image
-let avaterIdle1 = new Image();
+let avatarIdle1 = new Image();
 avatarIdle1 = 'Image/Exterminator/Mr.ExterminatorIdle1.png'
 
 //declare characters as game objects
 avatar = new GameObject();
-Bugs = new GameObject();
-Queen = new GameObject();
+bugs = new GameObject();
+queen = new GameObject();
 
 //load image
-avaterIdle1.onload = () =>{
-    ctx.drawImage(avaterIdle1,this.x,this.y,100,100);
+avatarIdle1.onload = () =>{
+    ctx.drawImage(avatarIdle1,this.x,this.y,100,100);
 }
 
 
