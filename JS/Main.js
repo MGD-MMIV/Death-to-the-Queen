@@ -24,8 +24,13 @@ let canvas;
     
 
 
-    function draw(){
+    function draw(){    
+        
+        var image = new Image();
+        image.src = `Image/Level.png`;
+        context.drawImage(image, 0, 0, 1300, 800, 0, 0, 1300, 800);
         var avatarIdle1 = new Image();
         avatarIdle1.src = 'Image/Exterminator/ExterminatorIdle1.png';
-        context.drawImage(avatarIdle1,0,0);
+        context.drawImage(avatarIdle1,0,700);
+
     }
