@@ -1,96 +1,73 @@
-class GameObject
-{
-    constructor()
-    {
-    /*Object properties (or attributes)*/
-    //object position
-     this.x=c.width/2;
-     this.y=c.height/2;
-     //object angle
-     this.angle = 0;
-     //object dimensions
-     this.w=100;
-     this.h=100;
-     //object velocity
-     this.vx=5;
-     this.vy=5;
-    //object color
-     this.color = `blue`;
-     //gravity data so the player and other objects don't fall through the floor and are affected by gravity//
-     this.gravity = 0.05;
-     this.gravitySpeed = 0;
+class GameObject {
+    constructor() {
+        // Object properties (or attributes)
+        // Object position
+        this.x = c.width / 2;
+        this.y = c.height / 2;
 
-     this.newPos = function() 
-     {
+        // Object angle
+        this.angle = 0;
+
+        // Object dimensions
+        this.w = 100;
+        this.h = 100;
+
+        // Object velocity
+        this.vx = 5;
+        this.vy = 5;
+
+        // Gravity data
+        this.gravity = 0.05;
+        this.gravitySpeed = 0;
+    }
+
+    newPos() {
         this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
-        this.y += this.speedY + this.gravitySpeed;
+        this.x += this.vx;  // Use vx instead of speedX
+        this.y += this.vy + this.gravitySpeed;  // Use vy instead of speedY
         this.hitBottom();
-     }
-     this.hitBottom = function() 
-    {
-        var rockBottom = myCanvas.canvas.height - this.height;
+    }
+
+    hitBottom() {
+        var rockBottom = c.height - this.h;  // Use c instead of myCanvas and this.h instead of height
         if (this.y > rockBottom) {
-          this.y = rockBottom;
+            this.y = rockBottom;
         }
     }
+
+    // Moves an object by adding its velocity to its position on each axis
+    move() {
+        this.x = this.x + this.vx;
+        this.y = this.y + this.vy;
     }
 
-    
-
-    //Draws a rectangle 
-    render()
-    {
-        ctx.save();
-            ctx.fillStyle = this.color;
-            ctx.translate(this.x, this.y)
-            ctx.rotate(this.angle*Math.PI/180)
-            ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h)
-        ctx.restore();
+    // Each function below returns a side of this object's bounding box
+    top() {
+        return this.y - this.h / 2;
     }
 
-    //Moves an object by adding it's velocity to it's position on each axis
-    move()
-    {
-        this.x = this.x + this.vx
-        this.y = this.y + this.vy
+    bottom() {
+        return this.y + this.h / 2;
     }
 
-    //Each function below returns a sides of this object's bounding box
-    top()
-    {
-        return this.y - this.h/2;
+    left() {
+        return this.x - this.w / 2;
     }
-    bottom()
-    {
-        return this.y + this.h/2
-    }
-    left()
-    {
-        return this.x - this.w/2
-    }
-    right()
-    {
-        return this.x + this.w/2
+
+    right() {
+        return this.x + this.w / 2;
     }
 
     /*-------Collision Function ----------------
     Used to check for collision between 2 objects
     This method checks to see where the various sides of one object are in relationship to another object's sides
     -------------------------------------------*/
-    overlaps(_obj)
-    {
-        if(
+    overlaps(_obj) {
+        return (
             this.top() < _obj.bottom() &&
             this.bottom() > _obj.top() &&
             this.left() < _obj.right() &&
             this.right() > _obj.left()
-        )
-        {
-            
-            return true
-        }
-        return false;
+        );
     }
-    
 }
