@@ -31,6 +31,6 @@ let canvas;
         context.drawImage(image, 0, 0, 1300, 800, 0, 0, 1300, 800);
         var avatarIdle1 = new Image();
         avatarIdle1.src = 'Image/Exterminator/ExterminatorIdle1.png';
-        context.drawImage(avatarIdle1,0,700);
+        context.drawImage(avatarIdle1,25,684);
 
     }
