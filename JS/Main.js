@@ -17,7 +17,7 @@ var queen;
 
 //Animations vars and sourcing character image
 let avatarIdle1 = new Image();
-avatarIdle1 = 'Image/Exterminator/Mr.ExterminatorIdle1.png'
+avatarIdle1 = 'Image/Exterminator/ExterminatorIdle1.png'
 
 //declare characters as game objects
 avatar = new GameObject();
@@ -28,5 +28,3 @@ queen = new GameObject();
 avatarIdle1.onload = () =>{
     ctx.drawImage(avatarIdle1,this.x,this.y,100,100);
 }
-
-
