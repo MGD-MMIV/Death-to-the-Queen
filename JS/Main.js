@@ -9,9 +9,24 @@ let avatar = {
     speedX: 0,
     speedY: 0,
     gravity: 0.5,
-    jumpPower: -10,
+    jumpPower: -9,
     onGround: true,
+    frameDelay: 10,
+    frameCounter: 0,
+    currentFrame: 0,
+    isIdle: true,
+    facingLeft: false  // Track direction for flipping
 };
+
+let avatarIdle = [
+    'Image/Exterminator/ExterminatorIdle1.png',
+    'Image/Exterminator/ExterminatorIdle2.png'
+];
+
+let avatarWalk = [
+    'Image/Exterminator/ExterminatorRunning&Jumping.png',
+    'Image/Exterminator/ExterminatorRun2.png'
+];
 
 window.onload = init;
 
@@ -25,21 +40,28 @@ function init(){
     window.requestAnimationFrame(gameLoop);
 }
 
-
-//Declares function which is than put into EventListener Above for Keydown and Key up
 function keyDownHandler(event){
-    if (event.key === 'd') avatar.speedX = 5;       // Move right
-    if (event.key === 'a') avatar.speedX = -5;      // Move left
+    if (event.key === 'd') {
+        avatar.speedX = 5;       // Move right
+        avatar.isIdle = false;
+        avatar.facingLeft = false;  // Not facing left
+    }
+    if (event.key === 'a') {
+        avatar.speedX = -5;      // Move left
+        avatar.isIdle = false;
+        avatar.facingLeft = true;  // Facing left
+    }
     if (event.key === 'w' && avatar.onGround) {     // Jump
         avatar.speedY = avatar.jumpPower;
         avatar.onGround = false;
     }
-    if (event.key === 's') avatar.speedY = 5;       // Move down for crouch
 }
 
 function keyUpHandler(event){
-    if (event.key === 'd' || event.key === 'a') avatar.speedX = 0; // Stop horizontal movement
-    if (event.key === 's') avatar.speedY = 0; // Stop downward movement if `s` was held for descend/crouch
+    if (event.key === 'd' || event.key === 'a') {
+        avatar.speedX = 0;
+        avatar.isIdle = true;  // Set to idle when movement stops
+    }
 }
 
 function gameLoop(timeStamp){
@@ -54,7 +76,7 @@ function update(){
     avatar.x += avatar.speedX;
     avatar.y += avatar.speedY;
 
-    // Gravity effect
+    // Apply gravity if in the air
     if (!avatar.onGround) {
         avatar.speedY += avatar.gravity;
     }
@@ -64,6 +86,19 @@ function update(){
         avatar.y = 684;
         avatar.speedY = 0;
         avatar.onGround = true;
+    }
+
+    // Update frame if necessary
+    avatar.frameCounter++;
+    if (avatar.frameCounter >= avatar.frameDelay) {
+        avatar.frameCounter = 0;
+
+        // Check if avatar is idle or moving, then choose correct animation
+        if (avatar.isIdle) {
+            avatar.currentFrame = (avatar.currentFrame + 1) % avatarIdle.length;
+        } else {
+            avatar.currentFrame = (avatar.currentFrame + 1) % avatarWalk.length;
+        }
     }
 }
 
@@ -76,8 +111,25 @@ function draw(){
     background.src = 'Image/Level.png';
     context.drawImage(background, 0, 0, 1300, 800);
 
-    // Draw character (idle or move frame)
+    // Select correct frame based on movement
     let avatarImage = new Image();
-    avatarImage.src = 'Image/Exterminator/ExterminatorIdle1.png';
-    context.drawImage(avatarImage, avatar.x, avatar.y, avatar.width, avatar.height);
+    if (avatar.isIdle) {
+        avatarImage.src = avatarIdle[avatar.currentFrame];
+    } else {
+        avatarImage.src = avatarWalk[avatar.currentFrame];
+    }
+
+    // Save the context state before flipping
+    context.save();
+
+    // Flip image if facing left
+    if (avatar.facingLeft) {
+        context.scale(-1, 1);  // Flip horizontally
+        context.drawImage(avatarImage, -avatar.x - avatar.width, avatar.y, avatar.width, avatar.height);
+    } else {
+        context.drawImage(avatarImage, avatar.x, avatar.y, avatar.width, avatar.height);
+    }
+
+    // Restore the context state to avoid affecting other drawings
+    context.restore();
 }
