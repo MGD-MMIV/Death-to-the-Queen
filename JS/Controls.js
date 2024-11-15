@@ -1,27 +1,29 @@
-// Boolean to see if button is pressed or not
-var w = false;
-var a = false;
-var s = false;
-var d = false
-var space = false;
-
-//Detecting Key press
-
-document.addEventListener('keydown', press);
-function press(e){
-    if (e.keycode == 87){w=true;}
-    if (e.keycode == 83){s=true;}
-    if (e.keycode == 65){a=true;}
-    if (e.keycode == 68){d=true;}
-    if (e.keycode == 32){space =true;}
+function keyDownHandler(event){
+    if (event.key === 'd') {
+        avatar.speedX = 5;       // Move right
+        avatar.isIdle = false;
+        avatar.facingLeft = false;  // Not facing left
+    }
+    if (event.key === 'a') {
+        avatar.speedX = -5;      // Move left
+        avatar.isIdle = false;
+        avatar.facingLeft = true;  // Facing left
+    }
+    if (event.key === 'w' && avatar.onGround) {     // Jump
+        avatar.speedY = avatar.jumpPower;
+        avatar.onGround = false;
+    }
+    if (event.key === 's') {  // Crouch
+        avatar.isCrouching = true;
+    }
 }
- //key release
 
- document.addEventListener('keyup', release);
- function release(e){
-    if (e.keycode == 87){w=false;}
-    if (e.keycode == 83){s=false;}
-    if (e.keycode == 65){a=false;}
-    if (e.keycode == 68){d=false;}
-    if (e.keycode == 32){space =false;}
- }
+function keyUpHandler(event){
+    if (event.key === 'd' || event.key === 'a') {
+        avatar.speedX = 0;
+        avatar.isIdle = true;  // Set to idle when movement stops
+    }
+    if (event.key === 's') {  // Stop crouch
+        avatar.isCrouching = false;
+    }
+}

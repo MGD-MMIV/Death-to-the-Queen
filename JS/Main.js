@@ -1,23 +1,7 @@
 let canvas;
 let context;
 
-let avatar = {
-    x: 25,
-    y: 684,
-    width: 100,
-    height: 100,
-    speedX: 0,
-    speedY: 0,
-    gravity: 0.5,
-    jumpPower: -9,
-    onGround: true,
-    frameDelay: 10,
-    frameCounter: 0,
-    currentFrame: 0,
-    isIdle: true,
-    facingLeft: false, // Track direction for flipping
-    isCrouching: false  // Track crouch state
-};
+
 
 let avatarIdle = [
     'Image/Exterminator/ExterminatorIdle1.png',
@@ -43,35 +27,6 @@ function init(){
     window.requestAnimationFrame(gameLoop);
 }
 
-function keyDownHandler(event){
-    if (event.key === 'd') {
-        avatar.speedX = 5;       // Move right
-        avatar.isIdle = false;
-        avatar.facingLeft = false;  // Not facing left
-    }
-    if (event.key === 'a') {
-        avatar.speedX = -5;      // Move left
-        avatar.isIdle = false;
-        avatar.facingLeft = true;  // Facing left
-    }
-    if (event.key === 'w' && avatar.onGround) {     // Jump
-        avatar.speedY = avatar.jumpPower;
-        avatar.onGround = false;
-    }
-    if (event.key === 's') {  // Crouch
-        avatar.isCrouching = true;
-    }
-}
-
-function keyUpHandler(event){
-    if (event.key === 'd' || event.key === 'a') {
-        avatar.speedX = 0;
-        avatar.isIdle = true;  // Set to idle when movement stops
-    }
-    if (event.key === 's') {  // Stop crouch
-        avatar.isCrouching = false;
-    }
-}
 
 function gameLoop(timeStamp){
     update();
