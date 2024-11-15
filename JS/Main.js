@@ -9,7 +9,7 @@ let avatar = {
     speedX: 0,
     speedY: 0,
     gravity: 0.5,
-    jumpPower: -10,
+    jumpPower: -9,
     onGround: true,
     frameDelay: 10,
     frameCounter: 0,
