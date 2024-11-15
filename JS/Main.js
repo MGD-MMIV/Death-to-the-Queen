@@ -9,13 +9,14 @@ let avatar = {
     speedX: 0,
     speedY: 0,
     gravity: 0.5,
-    jumpPower: -9,
+    jumpPower: -10,
     onGround: true,
     frameDelay: 10,
     frameCounter: 0,
     currentFrame: 0,
     isIdle: true,
-    facingLeft: false  // Track direction for flipping
+    facingLeft: false, // Track direction for flipping
+    isCrouching: false  // Track crouch state
 };
 
 let avatarIdle = [
@@ -27,6 +28,8 @@ let avatarWalk = [
     'Image/Exterminator/ExterminatorRunning&Jumping.png',
     'Image/Exterminator/ExterminatorRun2.png'
 ];
+
+let avatarCrouch = 'Image/Exterminator/ExterminatorCrouch.png'; // Crouch image
 
 window.onload = init;
 
@@ -55,12 +58,18 @@ function keyDownHandler(event){
         avatar.speedY = avatar.jumpPower;
         avatar.onGround = false;
     }
+    if (event.key === 's') {  // Crouch
+        avatar.isCrouching = true;
+    }
 }
 
 function keyUpHandler(event){
     if (event.key === 'd' || event.key === 'a') {
         avatar.speedX = 0;
         avatar.isIdle = true;  // Set to idle when movement stops
+    }
+    if (event.key === 's') {  // Stop crouch
+        avatar.isCrouching = false;
     }
 }
 
@@ -111,25 +120,33 @@ function draw(){
     background.src = 'Image/Level.png';
     context.drawImage(background, 0, 0, 1300, 800);
 
-    // Select correct frame based on movement
-    let avatarImage = new Image();
-    if (avatar.isIdle) {
-        avatarImage.src = avatarIdle[avatar.currentFrame];
+    // Check if crouching
+    if (avatar.isCrouching) {
+        // Draw crouch image, adjust position downward
+        let crouchImage = new Image();
+        crouchImage.src = avatarCrouch;
+        context.drawImage(crouchImage, avatar.x, avatar.y, avatar.width, avatar.height);
     } else {
-        avatarImage.src = avatarWalk[avatar.currentFrame];
+        // Select correct frame based on movement
+        let avatarImage = new Image();
+        if (avatar.isIdle) {
+            avatarImage.src = avatarIdle[avatar.currentFrame];
+        } else {
+            avatarImage.src = avatarWalk[avatar.currentFrame];
+        }
+
+        // Save the context state before flipping
+        context.save();
+
+        // Flip image if facing left
+        if (avatar.facingLeft) {
+            context.scale(-1, 1);  // Flip horizontally
+            context.drawImage(avatarImage, -avatar.x - avatar.width, avatar.y, avatar.width, avatar.height);
+        } else {
+            context.drawImage(avatarImage, avatar.x, avatar.y, avatar.width, avatar.height);
+        }
+
+        // Restore the context state to avoid affecting other drawings
+        context.restore();
     }
-
-    // Save the context state before flipping
-    context.save();
-
-    // Flip image if facing left
-    if (avatar.facingLeft) {
-        context.scale(-1, 1);  // Flip horizontally
-        context.drawImage(avatarImage, -avatar.x - avatar.width, avatar.y, avatar.width, avatar.height);
-    } else {
-        context.drawImage(avatarImage, avatar.x, avatar.y, avatar.width, avatar.height);
-    }
-
-    // Restore the context state to avoid affecting other drawings
-    context.restore();
 }
