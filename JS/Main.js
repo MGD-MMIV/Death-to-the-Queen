@@ -1,8 +1,6 @@
 let canvas;
 let context;
 
-
-
 let avatarIdle = [
     'Image/Exterminator/ExterminatorIdle1.png',
     'Image/Exterminator/ExterminatorIdle2.png'
@@ -14,6 +12,15 @@ let avatarWalk = [
 ];
 
 let avatarCrouch = 'Image/Exterminator/ExterminatorCrouch.png'; // Crouch image
+
+let enemyIdle = [
+    'Image/NormalEnemies/NormalEnemieIdle1.png',
+    'Image/NormalEnemies/NormalEnemieIdle2.png'
+]
+
+let enemyAttack = [
+    'Image/NormalEnemies/NormalEnemieAttack.png'
+]
 
 window.onload = init;
 
@@ -63,6 +70,10 @@ function update(){
         } else {
             avatar.currentFrame = (avatar.currentFrame + 1) % avatarWalk.length;
         }
+
+        if (enemy1.isIdle){
+            enemy1.currentFrame = (enemy1.currentFrame+ 1) % enemyIdle.length;
+        }
     }
 }
 
@@ -89,6 +100,13 @@ function draw(){
         } else {
             avatarImage.src = avatarWalk[avatar.currentFrame];
         }
+
+        let enemy1Image = new Image();
+            if (enemy1.isIdle){
+                enemy1Image.src = enemyIdle[enemy1.currentFrame];
+                context.drawImage(enemy1Image,enemy1.x,enemy1.y,enemy1.width,enemy1.height);
+            }
+
 
         // Save the context state before flipping
         context.save();
