@@ -26,6 +26,8 @@ window.onload = init;
 
 function init(){
     canvas = document.getElementById('myCanvas');
+        canvas.width = 1300;
+        canvas.height = 800;
     context = canvas.getContext('2d');
 
     window.addEventListener('keydown', keyDownHandler);
@@ -33,7 +35,6 @@ function init(){
 
     window.requestAnimationFrame(gameLoop);
 }
-
 
 function gameLoop(timeStamp){
     update();
@@ -52,12 +53,14 @@ function update(){
         avatar.speedY += avatar.gravity;
     }
 
-    // Collision with ground
+    // Collision with ground and walls
     if (avatar.y >= 684) {  // Assuming ground level is y=684
         avatar.y = 684;
         avatar.speedY = 0;
         avatar.onGround = true;
     }
+    if (avatar.x < 0) avatar.x = 0;
+    if (avatar.x + avatar.width > canvas.width) avatar.x = canvas.width - avatar.width;
 
     // Update frame if necessary
     avatar.frameCounter++;
