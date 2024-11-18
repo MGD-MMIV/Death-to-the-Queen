@@ -16,6 +16,10 @@ function keyDownHandler(event){
     if (event.key === 's') {  // Crouch
         avatar.isCrouching = true;
     }
+
+    if (event.key === ' ') {
+        shootBullet()
+    }
 }
 
 function keyUpHandler(event){

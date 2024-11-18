@@ -22,6 +22,8 @@ let enemyAttack = [
     'Image/NormalEnemies/NormalEnemieAttack.png'
 ]
 
+
+
 window.onload = init;
 
 function init(){
@@ -42,6 +44,19 @@ function gameLoop(timeStamp){
 
     window.requestAnimationFrame(gameLoop);
 }
+
+let bullet = [];
+
+function shootBullet(){
+    bullet.push({
+    x: avatar.x + avatar.width , // Center of character
+    y: avatar.y + avatar.height / 2 -5,
+    width: 10,
+    height: 10,
+    speed: 5
+    });
+}
+
 
 function update(){
     // Update position
@@ -78,7 +93,17 @@ function update(){
             enemy1.currentFrame = (enemy1.currentFrame+ 1) % enemyIdle.length;
         }
     }
-}
+
+    bullet.forEach((bullet, index) => {
+        bullet.x += bullet.speed; 
+        if (bullet.y + bullet.height < 0){
+            bullet.splice(index,1);
+        }
+    });
+    }
+
+
+
 
 function draw(){
     // Clear the canvas
@@ -104,9 +129,6 @@ function draw(){
             avatarImage.src = avatarWalk[avatar.currentFrame];
         }
 
-        
-
-
         // Save the context state before flipping
         context.save();
 
@@ -121,9 +143,18 @@ function draw(){
         // Restore the context state to avoid affecting other drawings
         context.restore();
     }
+
+    context.fillStyle = 'green';
+    bullet.forEach((bullet) => {
+        context.fillRect(bullet.x,bullet.y,bullet.width,bullet.height)
+    })
+
     let enemy1Image = new Image();
             if (enemy1.isIdle){
                 enemy1Image.src = enemyIdle[enemy1.currentFrame];
                 context.drawImage(enemy1Image,enemy1.x,enemy1.y,enemy1.width,enemy1.height);
             }
-}
+
+            
+        }
+    
