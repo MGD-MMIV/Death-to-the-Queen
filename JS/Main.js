@@ -104,11 +104,7 @@ function draw(){
             avatarImage.src = avatarWalk[avatar.currentFrame];
         }
 
-        let enemy1Image = new Image();
-            if (enemy1.isIdle){
-                enemy1Image.src = enemyIdle[enemy1.currentFrame];
-                context.drawImage(enemy1Image,enemy1.x,enemy1.y,enemy1.width,enemy1.height);
-            }
+        
 
 
         // Save the context state before flipping
@@ -125,4 +121,9 @@ function draw(){
         // Restore the context state to avoid affecting other drawings
         context.restore();
     }
+    let enemy1Image = new Image();
+            if (enemy1.isIdle){
+                enemy1Image.src = enemyIdle[enemy1.currentFrame];
+                context.drawImage(enemy1Image,enemy1.x,enemy1.y,enemy1.width,enemy1.height);
+            }
 }
