@@ -1,4 +1,30 @@
-
+body {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #87CEEB; /* Sky-blue background /
+              }
+            
+              .ladder {
+                position: absolute;
+                left: 100px;
+                top: 50px;
+                width: 20px;
+                height: 300px;
+                background-color: #8B4513; / Brown color for the ladder /
+              }
+            
+              .avatar {
+                position: absolute;
+                bottom: 50px; / Start avatar near the bottom of the screen /
+                left: 150px;
+                width: 50px;
+                height: 50px;
+                background-color: red; / Avatar is a simple red box */
+              }
 
 
 

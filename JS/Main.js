@@ -49,11 +49,12 @@ let bullet = [];
 
 function shootBullet(){
     bullet.push({
-    x: avatar.x + avatar.width , // Center of character
+    x:  avatar.facingLeft ? avatar.x : avatar.x + avatar.width, // Center of character
     y: avatar.y + avatar.height / 2 -5,
     width: 10,
     height: 10,
-    speed: 5
+    speed: 5,
+    direction: avatar.facingLeft ? -1 : 1 
     });
 }
 
@@ -94,13 +95,13 @@ function update(){
         }
     }
 
-    bullet.forEach((bullet, index) => {
-        bullet.x += bullet.speed; 
-        if (bullet.y + bullet.height < 0){
-            bullet.splice(index,1);
+    bullet.forEach((b, index) => {
+        b.x += b.speed * b.direction; // Move bullet based on its direction
+        if (b.x + b.width < 0 || b.x > canvas.width) {
+            bullet.splice(index, 1); // Remove bullet if it goes out of bounds
         }
     });
-    }
+}
 
 
 
