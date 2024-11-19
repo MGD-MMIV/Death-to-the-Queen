@@ -34,14 +34,14 @@ function init(){
     window.addEventListener('keyup', keyUpHandler);
 
     window.requestAnimationFrame(gameLoop);
-}
+};
 
 function gameLoop(timeStamp){
     update();
     draw();
 
     window.requestAnimationFrame(gameLoop);
-}
+};
 
 function update(){
     // Update position
@@ -60,7 +60,7 @@ function update(){
         avatar.onGround = true;
     }
     if (avatar.x < 0) avatar.x = 0;
-    if (avatar.x + avatar.width > canvas.width) avatar.x = canvas.width - avatar.width;
+    if (avatar.x + avatar.width > canvas.width) avatar.x = canvas.width - avatar.width; //collision for right and left walls
 
     // Update frame if necessary
     avatar.frameCounter++;
@@ -72,13 +72,8 @@ function update(){
             avatar.currentFrame = (avatar.currentFrame + 1) % avatarIdle.length;
         } else {
             avatar.currentFrame = (avatar.currentFrame + 1) % avatarWalk.length;
-        }
-
-        if (enemy1.isIdle){
-            enemy1.currentFrame = (enemy1.currentFrame+ 1) % enemyIdle.length;
-        }
-    }
-}
+       }
+}};
 
 function draw(){
     // Clear the canvas
@@ -125,4 +120,10 @@ function draw(){
         // Restore the context state to avoid affecting other drawings
         context.restore();
     }
-}
+};
+
+var bullets = [];
+    for (let i = 0; i < bullets.length; i++) {
+        const bullets = bullets[i];
+        
+    }

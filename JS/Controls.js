@@ -16,6 +16,9 @@ function keyDownHandler(event){
     if (event.key === 's') {  // Crouch
         avatar.isCrouching = true;
     }
+    if (event.key === ` `) {
+        avatar.isShooting = true;
+    }
 }
 
 function keyUpHandler(event){
