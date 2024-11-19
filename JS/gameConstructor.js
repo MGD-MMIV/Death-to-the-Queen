@@ -13,14 +13,16 @@ let avatar = {
     currentFrame: 0,
     isIdle: true,
     facingLeft: false, // Track direction for flipping
-    isCrouching: false,  // Track crouch state
+    isCrouching: false,
+    hp: 5, 
+    dmg: 0.5,  // Track crouch state
 }
 
 let enemy1 = {
     x: 785,
-    y: 684,
-    width: 100,
-    height: 100,
+    y: 634,
+    width: 150,
+    height: 150,
     speedX: 0,
     speedY: 0,
     gravity: 0.5,
@@ -30,4 +32,7 @@ let enemy1 = {
     currentFrame: 0,
     isIdle: true,
     facingLeft: false, // Track direction for flipping
+    hp: 5,
+    dmg: 1.5,
+    visble: true,
 }

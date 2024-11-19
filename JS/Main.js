@@ -58,6 +58,10 @@ function shootBullet(){
     });
 }
 
+function die(){
+
+}
+
 
 function update(){
     // Update position
@@ -96,9 +100,28 @@ function update(){
     }
 
     bullet.forEach((b, index) => {
-        b.x += b.speed * b.direction; // Move bullet based on its direction
+        b.x += b.speed * b.direction;
+
+        // Check for out-of-bounds bullets
         if (b.x + b.width < 0 || b.x > canvas.width) {
-            bullet.splice(index, 1); // Remove bullet if it goes out of bounds
+            bullet.splice(index, 1);
+            return;
+        }
+
+        if (
+            b.x < enemy1.x + enemy1.width &&
+            b.x + b.width > enemy1.x &&
+            b.y < enemy1.y + enemy1.height &&
+            b.y + b.height > enemy1.y
+        ) {
+            enemy1.hp -= avatar.dmg; // Decrease enemy health
+            bullet.splice(index, 1); // Remove bullet on impact
+
+            // Check if enemy is defeated
+            if (enemy1.hp <= 0) {
+                console.log("Enemy defeated!");
+                enemy1.y = 900
+            }
         }
     });
 }
