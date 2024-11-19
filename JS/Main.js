@@ -58,8 +58,8 @@ function shootBullet(){
     });
 }
 
-function die(){
-
+function die(dead){
+    dead.y = 900;
 }
 
 
@@ -120,7 +120,7 @@ function update(){
             // Check if enemy is defeated
             if (enemy1.hp <= 0) {
                 console.log("Enemy defeated!");
-                enemy1.y = 900
+                die(enemy1);
             }
         }
     });
