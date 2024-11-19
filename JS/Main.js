@@ -22,6 +22,8 @@ let enemyAttack = [
     'Image/NormalEnemies/NormalEnemieAttack.png'
 ]
 
+
+
 window.onload = init;
 
 function init(){
@@ -34,14 +36,27 @@ function init(){
     window.addEventListener('keyup', keyUpHandler);
 
     window.requestAnimationFrame(gameLoop);
-};
+}
 
 function gameLoop(timeStamp){
     update();
     draw();
 
     window.requestAnimationFrame(gameLoop);
-};
+}
+
+let bullet = [];
+
+function shootBullet(){
+    bullet.push({
+    x: avatar.x + avatar.width , // Center of character
+    y: avatar.y + avatar.height / 2 -5,
+    width: 10,
+    height: 10,
+    speed: 5
+    });
+}
+
 
 function update(){
     // Update position
@@ -60,7 +75,7 @@ function update(){
         avatar.onGround = true;
     }
     if (avatar.x < 0) avatar.x = 0;
-    if (avatar.x + avatar.width > canvas.width) avatar.x = canvas.width - avatar.width; //collision for right and left walls
+    if (avatar.x + avatar.width > canvas.width) avatar.x = canvas.width - avatar.width;
 
     // Update frame if necessary
     avatar.frameCounter++;
@@ -72,8 +87,23 @@ function update(){
             avatar.currentFrame = (avatar.currentFrame + 1) % avatarIdle.length;
         } else {
             avatar.currentFrame = (avatar.currentFrame + 1) % avatarWalk.length;
-       }
-}};
+        }
+
+        if (enemy1.isIdle){
+            enemy1.currentFrame = (enemy1.currentFrame+ 1) % enemyIdle.length;
+        }
+    }
+
+    bullet.forEach((bullet, index) => {
+        bullet.x += bullet.speed; 
+        if (bullet.y + bullet.height < 0){
+            bullet.splice(index,1);
+        }
+    });
+    }
+
+
+
 
 function draw(){
     // Clear the canvas
@@ -99,13 +129,6 @@ function draw(){
             avatarImage.src = avatarWalk[avatar.currentFrame];
         }
 
-        let enemy1Image = new Image();
-            if (enemy1.isIdle){
-                enemy1Image.src = enemyIdle[enemy1.currentFrame];
-                context.drawImage(enemy1Image,enemy1.x,enemy1.y,enemy1.width,enemy1.height);
-            }
-
-
         // Save the context state before flipping
         context.save();
 
@@ -120,10 +143,18 @@ function draw(){
         // Restore the context state to avoid affecting other drawings
         context.restore();
     }
-};
 
-var bullets = [];
-    for (let i = 0; i < bullets.length; i++) {
-        const bullets = bullets[i];
-        
-    }
+    context.fillStyle = 'green';
+    bullet.forEach((bullet) => {
+        context.fillRect(bullet.x,bullet.y,bullet.width,bullet.height)
+    })
+
+    let enemy1Image = new Image();
+            if (enemy1.isIdle){
+                enemy1Image.src = enemyIdle[enemy1.currentFrame];
+                context.drawImage(enemy1Image,enemy1.x,enemy1.y,enemy1.width,enemy1.height);
+            }
+
+            
+        }
+    
