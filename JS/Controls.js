@@ -20,6 +20,16 @@ function keyDownHandler(event){
     if (event.key === ' ') {
         shootBullet()
     }
+
+    if (event.key === `ArrowUp`) {
+        climbLadder()
+    }
+
+    if (event.key === `ArrowDown`) {
+        if(avatar.climbing && avatar.y < ladder1.y + ladder1.height- avatar.height) {
+            avatar.y +=2;
+        }
+    }
 }
 
 function keyUpHandler(event){

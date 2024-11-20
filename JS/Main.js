@@ -63,16 +63,18 @@ function die(dead){
 }
 
 
+
 function update(){
     // Update position
     avatar.x += avatar.speedX;
     avatar.y += avatar.speedY;
+    // update the avatars climbing state
 
     // Apply gravity if in the air
     if (!avatar.onGround) {
         avatar.speedY += avatar.gravity;
     }
-
+    
     // Collision with ground and walls
     if (avatar.y >= 684) {  // Assuming ground level is y=684
         avatar.y = 684;
@@ -81,7 +83,10 @@ function update(){
     }
     if (avatar.x < 0) avatar.x = 0;
     if (avatar.x + avatar.width > canvas.width) avatar.x = canvas.width - avatar.width;
-
+    // ensures avatar climbs ladder when avatar is at ladder coordinates
+    if (avatar.x>= ladder1.x && avatar.x <= ladder1.x + ladder1.width) {
+        avatar.isClimbing = true;
+}
     // Update frame if necessary
     avatar.frameCounter++;
     if (avatar.frameCounter >= avatar.frameDelay) {
@@ -124,6 +129,7 @@ function update(){
             }
         }
     });
+
 }
 
 
@@ -137,6 +143,12 @@ function draw(){
     let background = new Image();
     background.src = 'Image/Level.png';
     context.drawImage(background, 0, 0, 1300, 800);
+
+    //draw the ladder and avatar
+    context.fillRect(ladder1.x, ladder1.y, ladder1.width, ladder1.height);
+    context.fillRect(ladder2.x, ladder2.y, ladder2.width, ladder2.height);
+    context.fillRect(ladder3.x, ladder3.y, ladder3.width, ladder3.height);
+    //update the climbimg function
 
     // Check if crouching
     if (avatar.isCrouching) {
@@ -180,5 +192,13 @@ function draw(){
             }
 
             
+}
+function climbLadder() {
+    if (avatar.isClimbing) {
+        if (avatar.y > ladder1.y) {
+            avatar.y -= 2;
+                    
         }
-    
+    }
+}
+gameLoop();

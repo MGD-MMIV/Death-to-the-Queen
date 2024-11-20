@@ -14,6 +14,7 @@ let avatar = {
     isIdle: true,
     facingLeft: false, // Track direction for flipping
     isCrouching: false,
+    climbing: false, //tracks if the avatar is climbing
     hp: 5, 
     dmg: 0.5,  // Track crouch state
 }
@@ -35,4 +36,22 @@ let enemy1 = {
     hp: 5,
     dmg: 1.5,
     visble: true,
+}
+let ladder1 = {
+    x: 79,
+    y: 598,
+    width: 71,
+    height: 232,
+}
+let ladder2 = {
+    x: 917,
+    y: 783,
+    width: 71,
+    height: 232,
+}
+let ladder3 = {
+    x: 1120,
+    y: 184,
+    width: 71,
+    height: 232,
 }
