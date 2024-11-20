@@ -22,15 +22,13 @@ function keyDownHandler(event){
     }
 
     if (event.key === `ArrowUp`) {
-        climbLadder()
+        avatar.isClimbing = true;
     }
 
     if (event.key === `ArrowDown`) {
-        if(avatar.climbing && avatar.y < ladder1.y + ladder1.height- avatar.height) {
-            avatar.y +=2;
+        avatar.isClimbing = false;
         }
     }
-}
 
 function keyUpHandler(event){
     if (event.key === 'd' || event.key === 'a') {

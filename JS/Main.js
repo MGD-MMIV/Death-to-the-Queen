@@ -1,5 +1,6 @@
 let canvas;
 let context;
+let climbDistance = 20;
 
 let avatarIdle = [
     'Image/Exterminator/ExterminatorIdle1.png',
@@ -41,6 +42,7 @@ function init(){
 function gameLoop(timeStamp){
     update();
     draw();
+    updateAvatarPosition();
 
     window.requestAnimationFrame(gameLoop);
 }
@@ -139,16 +141,20 @@ function draw(){
     // Clear the canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
 
+
+    //draw the avatar
+    context.fillStyle = `blue`;
+    context.fillRect(avatar.x, avatar.y, avatar.width, avatar.height);
+
+    //draw the ladders
+    context.fillRect(ladder1.x, ladder1.y, ladder1.width, ladder1.height);
+    context.fillRect(ladder2.x, ladder2.y, ladder2.width, ladder2.height);
+    context.fillRect(ladder3.x, ladder3.y, ladder3.width, ladder3.height);
+    
     // Draw background
     let background = new Image();
     background.src = 'Image/Level.png';
     context.drawImage(background, 0, 0, 1300, 800);
-
-    //draw the ladder and avatar
-    context.fillRect(ladder1.x, ladder1.y, ladder1.width, ladder1.height);
-    context.fillRect(ladder2.x, ladder2.y, ladder2.width, ladder2.height);
-    context.fillRect(ladder3.x, ladder3.y, ladder3.width, ladder3.height);
-    //update the climbimg function
 
     // Check if crouching
     if (avatar.isCrouching) {
@@ -193,11 +199,39 @@ function draw(){
 
             
 }
-function climbLadder() {
-    if (avatar.isClimbing) {
-        if (avatar.y > ladder1.y) {
-            avatar.y -= 2;
-                    
+function isAvatarNearLadder1(avatar, ladder1) {
+                    return(
+                        avatar.x + avatar.width > ladder1.x && 
+                        avatar.x < ladder1.x + ladder1.width &&
+                        Math.abs(avatar.y + avatar.height - ladder1.y) <= climbDistance
+                    );
+}
+
+function isAvatarNearLadder2(avatar, ladder2) {
+                    return(
+                        avatar.x + avatar.width > ladder2.x &&
+                        avatar.x < ladder2.x + ladder2.width &&
+                        Math.abs(avatar.y + avatar.height - ladder2.y) <= climbDistance
+                    );
+}
+function isAvatarNearLadder3(avatar, ladder3) {
+                    return(
+                        avatar.x + avatar.width > ladder3.x &&
+                        avatar.x < ladder3.x + ladder3.width &&
+                        Math.abs(avatar.y + avatar.height - ladder3.y) <= climbDistance
+                    );
+}
+function isAvatarNearLadders(avatar, ladders) {
+    
+}
+
+function updateAvatarPosition() {
+    if (isAvatarNearLadder1(avatar, ladder1) && avatar.isClimbing) {
+        if (keys["ArrowUp"]) {
+            avatar.y -=2;
+        }
+        if (keys["ArrowDown"]) {
+            avatar.y += 2;
         }
     }
 }
