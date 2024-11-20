@@ -55,3 +55,10 @@ let ladder3 = {
     width: 71,
     height: 232,
 }
+
+let ladders = [
+    ladder1[0],
+    ladder2[1],
+    ladder3[2],
+]
+    

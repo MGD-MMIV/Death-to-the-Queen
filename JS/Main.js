@@ -42,7 +42,6 @@ function init(){
 function gameLoop(timeStamp){
     update();
     draw();
-    updateAvatarPosition();
 
     window.requestAnimationFrame(gameLoop);
 }
@@ -71,7 +70,16 @@ function update(){
     avatar.x += avatar.speedX;
     avatar.y += avatar.speedY;
     // update the avatars climbing state
-
+    function updateAvatarPosition() {
+        if (isAvatarNearLadders(avatar, ladders) && avatar.isClimbing) {
+            if (keys["ArrowUp"]) {
+                avatar.y -=2;
+            }
+            if (keys["ArrowDown"]) {
+                avatar.y += 2;
+            }
+        }
+    }
     // Apply gravity if in the air
     if (!avatar.onGround) {
         avatar.speedY += avatar.gravity;
@@ -85,10 +93,15 @@ function update(){
     }
     if (avatar.x < 0) avatar.x = 0;
     if (avatar.x + avatar.width > canvas.width) avatar.x = canvas.width - avatar.width;
+
     // ensures avatar climbs ladder when avatar is at ladder coordinates
-    if (avatar.x>= ladder1.x && avatar.x <= ladder1.x + ladder1.width) {
-        avatar.isClimbing = true;
+    if (avatar.x>= ladders.x && avatar.x <= ladder.x + ladder.width) {
+        avatar.y -=2;
 }
+    ladders.forEach (function(ladder, index) {
+        console.log(`Ladder ${index + 1}:`, ladder);
+    });
+    
     // Update frame if necessary
     avatar.frameCounter++;
     if (avatar.frameCounter >= avatar.frameDelay) {
@@ -131,11 +144,14 @@ function update(){
             }
         }
     });
-
 }
-
-
-
+function isAvatarNearLadders(avatar, ladders) {
+                    return(
+                        avatar.x + avatar.width > ladders.x && 
+                        avatar.x < ladders.x + ladders.width &&
+                        Math.abs(avatar.y + avatar.height - ladders.y) <= climbDistance
+                    );
+}
 
 function draw(){
     // Clear the canvas
@@ -147,10 +163,10 @@ function draw(){
     context.fillRect(avatar.x, avatar.y, avatar.width, avatar.height);
 
     //draw the ladders
-    context.fillRect(ladder1.x, ladder1.y, ladder1.width, ladder1.height);
-    context.fillRect(ladder2.x, ladder2.y, ladder2.width, ladder2.height);
-    context.fillRect(ladder3.x, ladder3.y, ladder3.width, ladder3.height);
-    
+    ladders.forEach(ladder => {
+        context.fillStyle = "blue";
+        context.fillRect(ladders.x, ladders.y, ladders.width, ladders.height);
+    });
     // Draw background
     let background = new Image();
     background.src = 'Image/Level.png';
@@ -196,43 +212,5 @@ function draw(){
                 enemy1Image.src = enemyIdle[enemy1.currentFrame];
                 context.drawImage(enemy1Image,enemy1.x,enemy1.y,enemy1.width,enemy1.height);
             }
-
-            
-}
-function isAvatarNearLadder1(avatar, ladder1) {
-                    return(
-                        avatar.x + avatar.width > ladder1.x && 
-                        avatar.x < ladder1.x + ladder1.width &&
-                        Math.abs(avatar.y + avatar.height - ladder1.y) <= climbDistance
-                    );
-}
-
-function isAvatarNearLadder2(avatar, ladder2) {
-                    return(
-                        avatar.x + avatar.width > ladder2.x &&
-                        avatar.x < ladder2.x + ladder2.width &&
-                        Math.abs(avatar.y + avatar.height - ladder2.y) <= climbDistance
-                    );
-}
-function isAvatarNearLadder3(avatar, ladder3) {
-                    return(
-                        avatar.x + avatar.width > ladder3.x &&
-                        avatar.x < ladder3.x + ladder3.width &&
-                        Math.abs(avatar.y + avatar.height - ladder3.y) <= climbDistance
-                    );
-}
-function isAvatarNearLadders(avatar, ladders) {
-    
-}
-
-function updateAvatarPosition() {
-    if (isAvatarNearLadder1(avatar, ladder1) && avatar.isClimbing) {
-        if (keys["ArrowUp"]) {
-            avatar.y -=2;
         }
-        if (keys["ArrowDown"]) {
-            avatar.y += 2;
-        }
-    }
-}
 gameLoop();
